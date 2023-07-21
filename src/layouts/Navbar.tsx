@@ -16,12 +16,12 @@ export default function Navbar() {
         <div className="text-2xl">
           <AiOutlineShoppingCart />
         </div>
-        <Link to="/products" className="text-2xl">
+        <Link to="/all-books" className="text-2xl">
           <MdOutlineProductionQuantityLimits />
         </Link>
-        <div className="text-2xl">
+        <Link to='/registration' className="text-2xl">
           <RiAccountCircleLine />
-        </div>
+        </Link>
         <div className="text-2xl">
           <MdOutlineLogin />
         </div>

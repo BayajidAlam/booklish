@@ -22,6 +22,7 @@ export default function Product() {
       });
   }, []);
 
+
   return (
     <div className="lg:container md:w-[90%] w-[90%] mx-auto py-8">
       <div className="flex justify-between items-center my-4">
@@ -64,7 +65,7 @@ export default function Product() {
                   <p className="font-semibold ">{card.author}</p>
                   <p>{card.genre}</p>
                 </div>
-                <p>Published: {card?.publicationDate?.split("T")[0]}</p>
+                <p>Published: {card?.publicationData?.split("T")[0]}</p>
               </div>
             </div>
           </Link>

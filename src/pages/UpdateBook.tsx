@@ -1,40 +1,25 @@
 import React, { useState } from "react";
+import { IBook } from "../types/globalTypes";
 
-interface Book {
-  title: string;
-  author: string;
-  genre: string;
-  publicationDate: string;
-}
-
-export default function AddNewBook() {
-  const [newBook, setNewBook] = useState<Book>({
-    title: "",
-    author: "",
-    genre: "",
-    publicationDate: "",
-  });
+export default function UpdateBook() {
+  const [updatedBook, setUpdatedBook] = useState<IBook>(initialBook);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewBook((prevBook) => ({ ...prevBook, [name]: value }));
+    setUpdatedBook((prevBook) => ({ ...prevBook, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission or API call to add the new book
-    console.log("New Book:", newBook);
-    // Add your logic to submit the new book data
+    // Call the onUpdate function with the updated book data
+    onUpdate(updatedBook);
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
-     
-    >
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
       <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-semibold text-gray-800 mb-6">
-          Add New Book
+          Update Book
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -49,7 +34,7 @@ export default function AddNewBook() {
               name="title"
               id="title"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
-              value={newBook.title}
+              value={updatedBook.title}
               onChange={handleChange}
               required
             />
@@ -66,7 +51,7 @@ export default function AddNewBook() {
               name="author"
               id="author"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
-              value={newBook.author}
+              value={updatedBook.author}
               onChange={handleChange}
               required
             />
@@ -83,7 +68,7 @@ export default function AddNewBook() {
               name="genre"
               id="genre"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
-              value={newBook.genre}
+              value={updatedBook.genre}
               onChange={handleChange}
               required
             />
@@ -100,7 +85,7 @@ export default function AddNewBook() {
               name="publicationDate"
               id="publicationDate"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
-              value={newBook.publicationDate}
+              value={updatedBook.publicationDate}
               onChange={handleChange}
               required
             />
@@ -110,7 +95,7 @@ export default function AddNewBook() {
               type="submit"
               className="w-full py-2 px-4 text-white font-semibold bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none"
             >
-              Add Book
+              Update Book
             </button>
           </div>
         </form>

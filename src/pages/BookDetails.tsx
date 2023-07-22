@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IBook } from "../types/globalTypes";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BsFillStarFill } from "react-icons/bs";
 import { AiOutlineStar } from "react-icons/ai";
 import Star from "../utils/Star";
@@ -69,9 +69,21 @@ export default function BookDetails() {
             <Star rating={rating} />
             <p className="text-xl">246 Review</p>
           </div>
-          <button className="btn btn-primary rounded-none my-6 font-bold text-lg">
+          <button className="btn btn-primary rounded-none my-6 font-bold text-lg w-40">
             Add to Cart
           </button>
+
+          <div className="flex items-center justify-start gap-4">
+            <Link to="/update-book">
+              <button className="btn btn-danger rounded-none w-40 mt-0 mb-6 font-bold text-lg">
+                Edit Book
+              </button>
+            </Link>
+
+            <button className="btn w-40 btn-secondary rounded-none mt-0 mb-6 font-bold text-lg">
+              Delete book
+            </button>
+          </div>
         </div>
       </div>
       <div className="container mx-auto my-12">
@@ -81,10 +93,17 @@ export default function BookDetails() {
             <Review key={index} review={review} />
           ))}
         </div>
-          <div>
-            <textarea className="h-40 w-96 p-4 border mt-6" name="" id="" placeholder="Your review"></textarea>
-          </div>
-          <button className="btn btn-primary rounded-none my-6 font-bold text-lg">Submit</button>
+        <div>
+          <textarea
+            className="h-40 w-96 p-4 border mt-6"
+            name=""
+            id=""
+            placeholder="Your review"
+          ></textarea>
+        </div>
+        <button className="btn btn-primary rounded-none my-6 font-bold text-lg">
+          Submit
+        </button>
       </div>
     </>
   );

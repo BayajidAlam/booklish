@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IBook } from "../types/globalTypes";
 import { Link, useParams } from "react-router-dom";
-import { BsFillStarFill } from "react-icons/bs";
-import { AiOutlineStar } from "react-icons/ai";
 import Star from "../utils/Star";
 import Review from "../components/Review";
+import { useAppDispatch } from "../redux/hook";
+import { addToCart } from "../redux/features/cart/cartSlice";
 
 const reviews = [
   {
@@ -39,7 +39,12 @@ export default function BookDetails() {
   }, [id]);
 
   const { image, tittle, publicationDate, author } = books;
-  console.log(books);
+
+  const dispatch = useAppDispatch();
+  const handleAddToCart = (book: IBook) => {
+    dispatch(addToCart(book));
+  };
+
   return (
     <>
       <div className="flex justify-center items-center lg:container md:w-[90%] w-[90%] mx-auto py-12">
@@ -69,7 +74,10 @@ export default function BookDetails() {
             <Star rating={rating} />
             <p className="text-xl">246 Review</p>
           </div>
-          <button className="btn btn-primary rounded-none my-6 font-bold text-lg w-40">
+          <button
+            onClick={() => handleAddToCart(books)}
+            className="btn btn-primary rounded-none my-6 font-bold text-lg w-40"
+          >
             Add to Cart
           </button>
 

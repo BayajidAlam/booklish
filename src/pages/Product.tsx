@@ -15,6 +15,7 @@ export default function Product() {
       })
       .then((data: IBook[]) => {
         setBooks(data);
+        console.log(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -42,26 +43,31 @@ export default function Product() {
           <button className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300">
             genre
           </button>
-          <Link to='/add-new-book' className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300">
+          <Link
+            to="/add-new-book"
+            className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300"
+          >
             Add New Book
           </Link>
         </div>
       </div>
       <div className="grid grid-cols-5 gap-12">
         {books?.data?.map((card: IBook, i: number) => (
-          <div key={i} className="card w-60 mx-auto bg-base-100 shadow-xl">
-            <figure>
-              <img src={card.image} className="h-72 w-60" alt="Shoes" />
-            </figure>
-            <div className="card-body p-3">
-              <h2 className="font-bold">{card.tittle}</h2>
-              <div className="flex gap-4">
-                <p className="font-semibold ">{card.author}</p>
-                <p>{card.genre}</p>
+          <Link to={`/book/${card._id}`}>
+            <div key={i} className="card w-60 mx-auto bg-base-100 shadow-xl">
+              <figure>
+                <img src={card.image} className="h-72 w-60" alt="Shoes" />
+              </figure>
+              <div className="card-body p-3">
+                <h2 className="font-bold">{card.tittle}</h2>
+                <div className="flex gap-4">
+                  <p className="font-semibold ">{card.author}</p>
+                  <p>{card.genre}</p>
+                </div>
+                <p>Published: {card?.publicationDate?.split("T")[0]}</p>
               </div>
-              <p>Published: {card.publicationDate.split("T")[0]}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

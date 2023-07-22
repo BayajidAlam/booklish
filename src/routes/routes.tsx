@@ -6,6 +6,7 @@ import Signup from "../pages/Signup";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
 import AddNewBook from "../pages/AddNewBook";
+import BookDetails from "../pages/BookDetails";
 
 const routes = createBrowserRouter([
   {
@@ -20,6 +21,15 @@ const routes = createBrowserRouter([
         path: "/all-books",
         element: <Product />,
       },
+      {
+        path: "/book/:id",
+        element: <BookDetails />,
+      },
+      {
+        path: "/add-book",
+        element: <AddNewBook />,
+      },
+
     ],
   },
   {
@@ -39,6 +49,5 @@ const routes = createBrowserRouter([
     element: <NotFound />,
   },
 ]);
-
 
 export default routes;

@@ -140,7 +140,7 @@ export default function Home() {
                 <p className="font-semibold ">{card.author}</p>
                 <p>{card.genre}</p>
               </div>
-              <p>Published: {card.publicationDate.split("T")[0]}</p>
+              <p>Published: {card?.publicationDate?.split("T")[0]}</p>
             </div>
           </div>
         ))}

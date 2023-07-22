@@ -15,11 +15,31 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<IBook>) => {
-      state.books.push(action.payload);
+      const existing = state.books.find(
+        (book) => book._id === action.payload._id
+      );
+      if (existing) {
+        existing.quantity = existing.quantity! + 1;
+      } else {
+        state.books.push({ ...action.payload, quantity: 1 });
+      }
+    },
+    removeOne: (state, action: PayloadAction<IBook>) => {
+      const existing = state.books.find(
+        (book) => book._id === action.payload._id
+      );
+      if (existing && existing.quantity! > 1) {
+        existing.quantity = existing.quantity! - 1;
+      }
+    },
+    removeFromCart: (state, action: PayloadAction<IBook>) => {
+      state.books = state.books.filter(
+        (book) => book._id !== action.payload._id
+      );
     },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, removeOne } = cartSlice.actions;
 
 export default cartSlice.reducer;

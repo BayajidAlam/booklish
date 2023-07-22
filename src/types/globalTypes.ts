@@ -5,4 +5,5 @@ export interface IBook {
   genre: string;
   publicationData: string;
   image: string;
+  quantity?: number;
 }

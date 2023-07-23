@@ -14,7 +14,7 @@ import {
 
 export default function Navbar() {
   const [cart, SetCart] = useState<boolean>(false);
-  const { books } = useAppSelector((state) => state.cart);
+  const { books,total } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   return (
@@ -63,6 +63,7 @@ export default function Navbar() {
               >
                 Delete
               </button>
+              <p>Total: {total}</p>
             </div>
           ))}
         </div>

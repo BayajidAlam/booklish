@@ -19,7 +19,9 @@ const reviews = [
   },
 ];
 export default function BookDetails() {
+
   const [books, setBooks] = useState<IBook[]>([]);
+  
   const id = useParams();
   const rating = 3.4;
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function BookDetails() {
       });
   }, [id]);
 
-  const { image, tittle, publicationDate, author } = books;
+  const { image, tittle, publicationDate, author } = books as IBook;
 
   const dispatch = useAppDispatch();
   const handleAddToCart = (book: IBook) => {

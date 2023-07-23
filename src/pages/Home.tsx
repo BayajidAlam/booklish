@@ -3,104 +3,84 @@ import { IBook } from "../types/globalTypes";
 
 const data = [
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954db0916593be5d090f0",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954db0916593be5d090f0",
+    price: 500
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954db0916593be5d090f1",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954db0916593be5d090f1",
+     price: 850
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954da0916593be5d08b88",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954da0916593be5d08b88",
+     price:600
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954db0916593be5d090ef",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954db0916593be5d090ef",
+     price: 900
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954da0916593be5d08b89",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954da0916593be5d08b89",
+     price: 800
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954da0916593be5d08b87",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954da0916593be5d08b87",
+     price: 100
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954da0916593be5d08b85",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954da0916593be5d08b85",
+     price: 200
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954da0916593be5d08b84",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954da0916593be5d08b84",
+     price: 300
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954da0916593be5d08b86",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954da0916593be5d08b86",
+     price: 400
   },
   {
-    publicationDate: "2023-07-20T15:34:01.543Z",
-    _id: "64b954db0916593be5d090ee",
     tittle: "jgosford3",
     author: "Julietta Gosford",
     genre: "Apache",
     publicationData: "10/9/2022",
     image: "https://i.ibb.co/zrhjLbp/images.jpg",
-    id: "64b954db0916593be5d090ee",
+     price: 400
   },
 ];
 

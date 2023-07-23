@@ -2,27 +2,10 @@ import { useEffect, useState } from "react";
 import { IBook } from "../types/globalTypes";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { useGetBooksQuery } from "../redux/api/apiSlice";
 
 export default function Product() {
-  const [books, setBooks] = useState<IBook[]>([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/api/v1/books/updated-books")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data: IBook[]) => {
-        setBooks(data);
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-
-
+  const { data, isLoading } = useGetBooksQuery(undefined);
   return (
     <div className="lg:container md:w-[90%] w-[90%] mx-auto py-8">
       <div className="flex justify-between items-center my-4">
@@ -53,9 +36,9 @@ export default function Product() {
         </div>
       </div>
       <div className="grid grid-cols-5 gap-12">
-        {books?.data?.map((card: IBook, i: number) => (
-          <Link to={`/book/${card._id}`}>
-            <div key={i} className="card w-60 mx-auto bg-base-100 shadow-xl">
+        {data?.data?.map((card: IBook, i: number) => (
+          <Link key={i} to={`/book/${card._id}`}>
+            <div className="card w-60 mx-auto bg-base-100 shadow-xl">
               <figure>
                 <img src={card.image} className="h-72 w-60" alt="Shoes" />
               </figure>
@@ -65,7 +48,7 @@ export default function Product() {
                   <p className="font-semibold ">{card.author}</p>
                   <p>{card.genre}</p>
                 </div>
-                <p>Published: {card?.publicationData?.split("T")[0]}</p>
+                <p>Published: {card?.publicationDate?.split("T")[0]}</p>
               </div>
             </div>
           </Link>

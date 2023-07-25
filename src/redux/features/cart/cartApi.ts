@@ -9,6 +9,14 @@ const cartApi = api.injectEndpoints({
     getSingleBook: builder.query({
       query: (id) => `/books/${id}`,
     }),
+    createBook: builder.mutation({
+      query: (data) => ({
+        url: "/books",
+        method: "POST",
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        body: data,
+      }),
+    }),
     postReview: builder.mutation({
       query: ({ id, data }) => ({
         url: `/reviews/${id}`,
@@ -26,6 +34,7 @@ const cartApi = api.injectEndpoints({
 export const {
   useGetBooksQuery,
   useGetSingleBookQuery,
+  useCreateBookMutation,
   useGetSingleBookReviewQuery,
   usePostReviewMutation
 } = cartApi;

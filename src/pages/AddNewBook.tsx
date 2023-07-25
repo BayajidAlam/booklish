@@ -1,18 +1,28 @@
 import React, { useState } from "react";
+import { useAppSelector } from "../redux/hook";
+import { useCreateBookMutation } from "../redux/features/cart/cartApi";
 
 interface Book {
-  title: string;
+  tittle: string;
   author: string;
   genre: string;
   publicationDate: string;
+  image: string;
+  price: number;
+  authorGmail: string;
 }
 
 export default function AddNewBook() {
+
+  const { user} = useAppSelector((state)=>state.user)
   const [newBook, setNewBook] = useState<Book>({
-    title: "",
+    tittle: "",
     author: "",
     genre: "",
     publicationDate: "",
+    image: '',
+    price: 0,
+    authorGmail: user?.email!,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,11 +30,12 @@ export default function AddNewBook() {
     setNewBook((prevBook) => ({ ...prevBook, [name]: value }));
   };
 
+  const [createBook,{isLoading}] = useCreateBookMutation()
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission or API call to add the new book
     console.log("New Book:", newBook);
-    // Add your logic to submit the new book data
+    createBook(newBook)
   };
 
   return (
@@ -37,7 +48,7 @@ export default function AddNewBook() {
           Add New Book
         </h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+          <div className="mb-2">
             <label
               htmlFor="title"
               className="block text-gray-700 font-medium mb-2"
@@ -46,7 +57,7 @@ export default function AddNewBook() {
             </label>
             <input
               type="text"
-              name="title"
+              name="tittle"
               id="title"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
               value={newBook.title}
@@ -54,7 +65,7 @@ export default function AddNewBook() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label
               htmlFor="author"
               className="block text-gray-700 font-medium mb-2"
@@ -71,7 +82,25 @@ export default function AddNewBook() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
+            <label
+              htmlFor="author"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Author Email
+            </label>
+            <input
+              type="text"
+              name="authorEmail"
+              id="author"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
+              value={newBook.authorGmail}
+              onChange={handleChange}
+              defaultValue={user.email!}
+              disabled
+            />
+          </div>
+          <div className="mb-2">
             <label
               htmlFor="genre"
               className="block text-gray-700 font-medium mb-2"
@@ -84,6 +113,40 @@ export default function AddNewBook() {
               id="genre"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
               value={newBook.genre}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-2">
+            <label
+              htmlFor="genre"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Image Link
+            </label>
+            <input
+              type="text"
+              name="image"
+              id="genre"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
+              value={newBook.image}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-2">
+            <label
+              htmlFor="genre"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Price
+            </label>
+            <input
+              type="number"
+              name="price"
+              id="genre"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
+              value={newBook.price}
               onChange={handleChange}
               required
             />

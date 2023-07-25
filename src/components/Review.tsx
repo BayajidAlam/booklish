@@ -1,25 +1,25 @@
-interface Review {
-  name: string;
-  content: string;
-  rating: number;
-}
+
 
 interface ReviewCardProps {
-  review: Review;
+  review: string;
+  bookId: string;
+  id: string;
+  userEmail: string;
 }
 
 export default function Review({ review }:ReviewCardProps) {
+  
+  console.log(review);
   return (
     <div className="border border-gray-300 p-6 rounded-lg shadow-lg">
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-xl font-semibold">{review.name}</h2>
+          <h2 className="text-xl font-semibold">{review?.userName}</h2>
           <div className="flex items-center mt-2">
             {[...Array(5)].map((_, index) => (
               <svg
                 key={index}
-                className={`w-6 h-6 fill-current ${
-                  index < review.rating ? "text-yellow-500" : "text-gray-400"
+                className={`w-6 h-6 fill-current text-yellow-500
                 }`}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -32,9 +32,9 @@ export default function Review({ review }:ReviewCardProps) {
             ))}
           </div>
         </div>
-        <p className="text-gray-600 ml-4">{review.rating.toFixed(1)}</p>
+        <p className="text-gray-600 ml-4">4.5</p>
       </div>
-      <p className="mt-4 text-gray-800">{review.content}</p>
+      <p className="mt-4 text-gray-800">{review?.review}</p>
     </div>
   );
 }

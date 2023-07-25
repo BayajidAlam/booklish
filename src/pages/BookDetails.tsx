@@ -1,37 +1,26 @@
 import { IBook } from "../types/globalTypes";
 import { Link, useParams } from "react-router-dom";
 import Star from "../utils/Star";
-import Review from "../components/Review";
+
 import { useAppDispatch } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/cartSlice";
 import MakeReview from "../components/MakeReview";
 import { useGetSingleBookQuery } from "../redux/features/cart/cartApi";
+import ReviewContainer from "../components/ReviewContainer";
 
-const reviews = [
-  {
-    name: "John Doe",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    rating: 4.5,
-  },
-  {
-    name: "Jane Smith",
-    content: "Vestibulum ullamcorper tortor ac tristique placerat.",
-    rating: 5,
-  },
-];
 
 export default function BookDetails() {
   const { id } = useParams();
   const rating = 3.4;
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useGetSingleBookQuery(id);
-  console.log(data?.data, "data");
-  console.log(error, "error");
+
 
   if (isLoading) {
     return;
   }
   const { image, tittle, publicationDate, author } = data?.data as IBook;
+
   const handleAddToCart = (book: IBook) => {
     dispatch(addToCart(book));
   };
@@ -87,10 +76,8 @@ export default function BookDetails() {
       </div>
       <div className="container mx-auto my-12">
         <h1 className="text-3xl font-semibold mb-6">Reader's Reviews</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reviews.map((review, index) => (
-            <Review key={index} review={review} />
-          ))}
+        <div>
+        <ReviewContainer/>
         </div>
         <MakeReview />
       </div>

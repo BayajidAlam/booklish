@@ -24,9 +24,11 @@ const cartApi = api.injectEndpoints({
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         body: data,
       }),
+      invalidatesTags: ["comments"],
     }),
     getSingleBookReview: builder.query({
       query: (id) => `/reviews/${id}`,
+      providesTags: ["comments"],
     }),
   }),
 });

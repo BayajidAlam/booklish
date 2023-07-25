@@ -4,36 +4,34 @@ import Star from "../utils/Star";
 import Review from "../components/Review";
 import { useAppDispatch } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/cartSlice";
-
 import MakeReview from "../components/MakeReview";
+import { useGetSingleBookQuery } from "../redux/features/cart/cartApi";
 
-// const reviews = [
-//   {
-//     name: "John Doe",
-//     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-//     rating: 4.5,
-//   },
-//   {
-//     name: "Jane Smith",
-//     content: "Vestibulum ullamcorper tortor ac tristique placerat.",
-//     rating: 5,
-//   },
-// ];
+const reviews = [
+  {
+    name: "John Doe",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    rating: 4.5,
+  },
+  {
+    name: "Jane Smith",
+    content: "Vestibulum ullamcorper tortor ac tristique placerat.",
+    rating: 5,
+  },
+];
 
 export default function BookDetails() {
-  const id = useParams();
+  const { id } = useParams();
   const rating = 3.4;
   const dispatch = useAppDispatch();
-  // const { data, isLoading } = useGetSingleBookQuery(id.id);
-  // console.log(data,'data');
-  // // const { data:reviews,refetch } = useGetSingleBookReviewQuery(id?.id);
+  const { data, isLoading, error } = useGetSingleBookQuery(id);
+  console.log(data?.data, "data");
+  console.log(error, "error");
 
-  // const { image, tittle, publicationDate, author } = data?.data as IBook;
-
-  // if (isLoading) {
-  //   return;
-  // }
-
+  if (isLoading) {
+    return;
+  }
+  const { image, tittle, publicationDate, author } = data?.data as IBook;
   const handleAddToCart = (book: IBook) => {
     dispatch(addToCart(book));
   };

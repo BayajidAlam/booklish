@@ -3,11 +3,11 @@ import { api } from "../../api/apiSlice";
 
 const cartApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getBooks: builder.query({
-      query: () => "/books",
-    }),
     getSingleBook: builder.query({
       query: (id) => `/books/${id}`,
+    }),
+    getBooks: builder.query({
+      query: () => "/books",
     }),
     createBook: builder.mutation({
       query: (data) => ({
@@ -36,5 +36,5 @@ export const {
   useGetSingleBookQuery,
   useCreateBookMutation,
   useGetSingleBookReviewQuery,
-  usePostReviewMutation
+  usePostReviewMutation,
 } = cartApi;

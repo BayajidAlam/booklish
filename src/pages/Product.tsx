@@ -42,7 +42,7 @@ export default function Product() {
       </div>
       <div className="grid grid-cols-5 gap-12">
         {data?.data?.map((card: IBook, i: number) => (
-          <Link key={i} to={`/book/${card._id}`}>
+          <Link key={i} to={`/books/${card._id}`}>
             <div className="card w-60 mx-auto bg-base-100 shadow-xl">
               <figure>
                 <img src={card.image} className="h-72 w-60" alt="Shoes" />

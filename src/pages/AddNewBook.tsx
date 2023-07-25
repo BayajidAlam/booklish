@@ -36,6 +36,7 @@ export default function AddNewBook() {
     e.preventDefault();
     console.log("New Book:", newBook);
     createBook(newBook)
+    
   };
 
   return (

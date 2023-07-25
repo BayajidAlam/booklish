@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { IBook } from "../types/globalTypes";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useGetBooksQuery } from "../redux/api/apiSlice";
+import { useGetBooksQuery } from "../redux/features/cart/cartApi";
+
 
 export default function Product() {
   const { data, isLoading } = useGetBooksQuery(undefined);
+  
+
   return (
     <div className="lg:container md:w-[90%] w-[90%] mx-auto py-8">
       <div className="flex justify-between items-center my-4">
@@ -21,9 +24,11 @@ export default function Product() {
           </button>
         </div>
         <div className="flex justify-center items-center gap-4">
-          <button className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300">
-            genre
-          </button>
+          {data?.data?.map((book:IBook,i:number) => (
+            <button key={i} className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300">
+              {book.genre}
+            </button>
+          ))}
           <button className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300">
             genre
           </button>

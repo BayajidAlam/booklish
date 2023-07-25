@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { createUser } from "../redux/features/user/userSlice";
+import { useAppDispatch } from "../redux/hook";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
-    fullName: "",
+    userName: "",
     email: "",
     password: "",
   });
@@ -15,16 +17,18 @@ export default function Signup() {
     });
   };
 
+  const dispatch = useAppDispatch();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Perform signup logic here using the formData
-    console.log(formData);
+
     // Reset form data after submission
     setFormData({
-      fullName: "",
+      userName: "",
       email: "",
       password: "",
     });
+
+    dispatch(createUser(formData));
   };
 
   return (
@@ -34,7 +38,7 @@ export default function Signup() {
         className="bg-white p-8 rounded shadow-md w-96 space-y-6"
       >
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
-        Registration
+          Registration
         </h2>
         <div>
           <label htmlFor="fullName" className="block font-medium mb-1">
@@ -84,7 +88,7 @@ export default function Signup() {
         >
           Sign Up
         </button>
-   
+
         <p className="mt-4 text-gray-600">
           Already have an account?{" "}
           <a href="/login" className="text-blue-500 font-medium">

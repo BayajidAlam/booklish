@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { IBook } from "../types/globalTypes";
 import { Link, useParams } from "react-router-dom";
 import Star from "../utils/Star";
@@ -6,43 +5,35 @@ import Review from "../components/Review";
 import { useAppDispatch } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/cartSlice";
 
-const reviews = [
-  {
-    name: "John Doe",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    rating: 4.5,
-  },
-  {
-    name: "Jane Smith",
-    content: "Vestibulum ullamcorper tortor ac tristique placerat.",
-    rating: 5,
-  },
-];
-export default function BookDetails() {
+import MakeReview from "../components/MakeReview";
 
-  const [books, setBooks] = useState<IBook[]>([]);
-  
+// const reviews = [
+//   {
+//     name: "John Doe",
+//     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+//     rating: 4.5,
+//   },
+//   {
+//     name: "Jane Smith",
+//     content: "Vestibulum ullamcorper tortor ac tristique placerat.",
+//     rating: 5,
+//   },
+// ];
+
+export default function BookDetails() {
   const id = useParams();
   const rating = 3.4;
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/books/${id.id}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data: IBook[]) => {
-        setBooks(data?.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [id]);
-
-  const { image, tittle, publicationDate, author } = books as IBook;
-
   const dispatch = useAppDispatch();
+  // const { data, isLoading } = useGetSingleBookQuery(id.id);
+  // console.log(data,'data');
+  // // const { data:reviews,refetch } = useGetSingleBookReviewQuery(id?.id);
+
+  // const { image, tittle, publicationDate, author } = data?.data as IBook;
+
+  // if (isLoading) {
+  //   return;
+  // }
+
   const handleAddToCart = (book: IBook) => {
     dispatch(addToCart(book));
   };
@@ -103,17 +94,7 @@ export default function BookDetails() {
             <Review key={index} review={review} />
           ))}
         </div>
-        <div>
-          <textarea
-            className="h-40 w-96 p-4 border mt-6"
-            name=""
-            id=""
-            placeholder="Your review"
-          ></textarea>
-        </div>
-        <button className="btn btn-primary rounded-none my-6 font-bold text-lg">
-          Submit
-        </button>
+        <MakeReview />
       </div>
     </>
   );

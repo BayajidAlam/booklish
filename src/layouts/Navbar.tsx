@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -11,11 +12,21 @@ import {
   removeFromCart,
   removeOne,
 } from "../redux/features/cart/cartSlice";
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { setUser } from "../redux/features/user/userSlice";
 
 export default function Navbar() {
   const [cart, SetCart] = useState<boolean>(false);
-  const { books,total } = useAppSelector((state) => state.cart);
+  const { books, total } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.user);
+
+  const handleLogout = () => {
+    signOut(auth).then(()=>{
+      dispatch(setUser(null))
+    })
+  }
 
   return (
     <>
@@ -31,12 +42,21 @@ export default function Navbar() {
           <Link to="/all-books" className="text-2xl">
             <MdOutlineProductionQuantityLimits />
           </Link>
-          <Link to="/registration" className="text-2xl">
-            <RiAccountCircleLine />
-          </Link>
-          <div className="text-2xl">
-            <MdOutlineLogin />
-          </div>
+          {!user.email && (
+            <>
+              {" "}
+              <Link to="/login" className="text-2xl">
+                <RiAccountCircleLine />
+              </Link>
+            </>
+          )}
+          {user.email && (
+            <>
+              <div onClick={handleLogout} className="text-2xl">
+                <MdOutlineLogin />
+              </div>
+            </>
+          )}
         </div>
       </div>
       {cart && (

@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { loginUser } from "../redux/features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const { user, isLoading } = useAppSelector((state) => state.user);
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    if(user.email && !isLoading) {
+      navigate('/')
+    }
+  },[isLoading, user.email])
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -14,15 +27,17 @@ export default function Login() {
     });
   };
 
+  const dispatch = useAppDispatch();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Perform login logic here using the formData
-    console.log(formData);
-    // Reset form data after submission
+
     setFormData({
       email: "",
       password: "",
     });
+    dispatch(loginUser(formData));
   };
 
   return (

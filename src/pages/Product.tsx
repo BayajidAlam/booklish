@@ -8,6 +8,8 @@ import { useMemo, useState } from "react";
 export default function Product() {
   const { data, isLoading } = useGetBooksQuery(undefined);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedPublicationYear, setSelectedPublicationYear] = useState("");
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -15,18 +17,35 @@ export default function Product() {
 
   const filteredData = useMemo(() => {
     if (!data) return [];
+
+    const lowercaseSearchTerm = searchTerm.toLowerCase();
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return data?.data?.filter((book: IBook) => {
-      const lowercaseSearchTerm = searchTerm.toLowerCase();
-      return (
+      const lowercaseGenre = book.genre.toLowerCase();
+      const lowercasePublicationYear = book.publicationDate
+        ?.split("T")[0]
+        .toLowerCase();
+
+      // Apply filters based on selectedGenre and selectedPublicationYear
+      const genreFilterPass =
+        selectedGenre === "" || lowercaseGenre === selectedGenre.toLowerCase();
+      const publicationYearFilterPass =
+        selectedPublicationYear === "" ||
+        lowercasePublicationYear === selectedPublicationYear.toLowerCase();
+
+      // Apply search filter based on title, author, and genre
+      const searchFilterPass =
+        lowercaseSearchTerm === "" ||
         book.tittle.toLowerCase().includes(lowercaseSearchTerm) ||
         book.author.toLowerCase().includes(lowercaseSearchTerm) ||
-        book.genre.toLowerCase().includes(lowercaseSearchTerm)
-      );
-    });
-  }, [data, searchTerm]);
+        lowercaseGenre.includes(lowercaseSearchTerm);
 
-  console.log(filteredData);
+      return genreFilterPass && publicationYearFilterPass && searchFilterPass;
+    });
+  }, [data, searchTerm, selectedGenre, selectedPublicationYear]);
+
+
   return (
     <div className="lg:container md:w-[90%] w-[90%] mx-auto py-8">
       <div className="flex justify-between items-center my-4">
@@ -44,16 +63,33 @@ export default function Product() {
           </button>
         </div>
         <div className="flex justify-center items-center gap-4">
-          {data?.data?.map((book: IBook, i: number) => (
-            <button
-              key={i}
-              className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300"
-            >
-              {book.genre}
-            </button>
-          ))}
-          <button className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300">
-            genre
+          <select
+            className="bg-base-200 rounded-md px-2 py-1"
+            value={selectedGenre}
+            onChange={(e) => setSelectedGenre(e.target.value)}
+          >
+            <option value="">All Genres</option>
+            <option value="fiction">Fiction</option>
+            <option value="non-fiction">Non-Fiction</option>
+          </select>
+          <select
+            className="bg-base-200 rounded-md px-2 py-1"
+            value={selectedPublicationYear}
+            onChange={(e) => setSelectedPublicationYear(e.target.value)}
+          >
+            <option value="">All Years</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+          <button
+            className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300"
+            onClick={() => {
+              setSelectedGenre("");
+              setSelectedPublicationYear("");
+              setSearchTerm("");
+            }}
+          >
+            Clear Filters
           </button>
           <Link
             to="/add-new-book"

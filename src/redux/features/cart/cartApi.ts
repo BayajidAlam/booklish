@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { IBook } from "../../../types/globalTypes";
 import { api } from "../../api/apiSlice";
 
 const cartApi = api.injectEndpoints({
@@ -7,7 +8,7 @@ const cartApi = api.injectEndpoints({
       query: (id) => `/books/${id}`,
       providesTags: ["book"],
     }),
-    getBooks: builder.query({
+    getBooks: builder.query<IBook[], void>({
       query: () => "/books",
     }),
     updatedBooks: builder.query({
@@ -45,7 +46,7 @@ const cartApi = api.injectEndpoints({
     }),
     deleteBook: builder.mutation({
       query: (id) => ({
-        url: `/reviews/${id}`,
+        url: `/books/${id}`,
         method: "DELETE"
       }),
     }),

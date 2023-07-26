@@ -29,7 +29,7 @@ export default function Navbar() {
     });
   };
 
-  console.log(books, "books");
+
   return (
     <>
       <div className="lg:container md:w-[90%] w-[90%] mx-auto flex justify-between items-center relative">
@@ -62,7 +62,7 @@ export default function Navbar() {
         </div>
       </div>
       {cart && (
-        <div className="bg-red-300 w-96 absolute right-0 top-0 h-[400px]  stickey mt-16 z-50 p-4">
+        <div className="bg-blue-300 w-80 absolute right-0 top-0 h-[400px]  stickey mt-16 z-50 p-4 mr-4">
           <>
             {books.map((book) => (
               <div className="flex items-center gap-3">

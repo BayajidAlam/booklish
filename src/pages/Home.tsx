@@ -2,10 +2,7 @@ import { IBook } from "../types/globalTypes";
 import { Link } from "react-router-dom";
 import { useUpdatedBooksQuery } from "../redux/features/cart/cartApi";
 
-
 export default function Home() {
-
-
   const { data } = useUpdatedBooksQuery(undefined);
 
   return (

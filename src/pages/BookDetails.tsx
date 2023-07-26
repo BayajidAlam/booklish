@@ -1,5 +1,5 @@
 import { IBook } from "../types/globalTypes";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Star from "../utils/Star";
 import { useAppDispatch } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/cartSlice";
@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 
 export default function BookDetails() {
   const { id } = useParams();
+  const navigate = useNavigate()
   const rating = 3.4;
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useGetSingleBookQuery(id);
@@ -31,6 +32,7 @@ export default function BookDetails() {
     const { data } = await deleteBook(id);
     if (data?.success === true) {
       toast.success("Book deleted successfully!");
+      navigate('/all-books')
     }
   };
 

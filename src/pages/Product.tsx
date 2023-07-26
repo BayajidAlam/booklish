@@ -3,12 +3,30 @@ import { IBook } from "../types/globalTypes";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useGetBooksQuery } from "../redux/features/cart/cartApi";
-
+import { useMemo, useState } from "react";
 
 export default function Product() {
   const { data, isLoading } = useGetBooksQuery(undefined);
-  
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return data?.data?.filter((book: IBook) => {
+      const lowercaseSearchTerm = searchTerm.toLowerCase();
+      return (
+        book.tittle.toLowerCase().includes(lowercaseSearchTerm) ||
+        book.author.toLowerCase().includes(lowercaseSearchTerm) ||
+        book.genre.toLowerCase().includes(lowercaseSearchTerm)
+      );
+    });
+  }, [data, searchTerm]);
+
+  console.log(filteredData);
   return (
     <div className="lg:container md:w-[90%] w-[90%] mx-auto py-8">
       <div className="flex justify-between items-center my-4">
@@ -16,6 +34,8 @@ export default function Product() {
           <input
             className="w-80 bg-base-200 h-full outline-none px-2"
             type="text"
+            value={searchTerm}
+            onChange={handleSearch}
           />
           <button className="w-12 bg-blue-300 h-full absolute">
             <div className="flex justify-center items-center text-2xl">
@@ -24,8 +44,11 @@ export default function Product() {
           </button>
         </div>
         <div className="flex justify-center items-center gap-4">
-          {data?.data?.map((book:IBook,i:number) => (
-            <button key={i} className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300">
+          {data?.data?.map((book: IBook, i: number) => (
+            <button
+              key={i}
+              className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300"
+            >
               {book.genre}
             </button>
           ))}
@@ -41,7 +64,7 @@ export default function Product() {
         </div>
       </div>
       <div className="grid grid-cols-5 gap-12">
-        {data?.data?.map((card: IBook, i: number) => (
+        {filteredData?.map((card: IBook, i: number) => (
           <Link key={i} to={`/books/${card._id}`}>
             <div className="card w-60 mx-auto bg-base-100 shadow-xl">
               <figure>

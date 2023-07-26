@@ -20,13 +20,12 @@ export default function Product() {
 
     const lowercaseSearchTerm = searchTerm.toLowerCase();
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,
     return data?.data?.filter((book: IBook) => {
       const lowercaseGenre = book.genre.toLowerCase();
       const lowercasePublicationYear = book.publicationDate
-        ?.split("T")[0]
-        .toLowerCase();
-
+        ?.split("T")[0].substring(0, 4).toLowerCase();
+      console.log(lowercasePublicationYear);
       // Apply filters based on selectedGenre and selectedPublicationYear
       const genreFilterPass =
         selectedGenre === "" || lowercaseGenre === selectedGenre.toLowerCase();
@@ -45,6 +44,13 @@ export default function Product() {
     });
   }, [data, searchTerm, selectedGenre, selectedPublicationYear]);
 
+  const newFilterData = filteredData?.map((obj) => obj.genre)
+    .filter((genre, index, array) => array.indexOf(genre) === index);
+ 
+
+  const newFilterDate = filteredData?.map((obj) => obj.publicationDate)
+    .filter((publicationDate, index, array) => array.indexOf(publicationDate) === index);
+  console.log(newFilterDate);
 
   return (
     <div className="lg:container md:w-[90%] w-[90%] mx-auto py-8">
@@ -69,8 +75,12 @@ export default function Product() {
             onChange={(e) => setSelectedGenre(e.target.value)}
           >
             <option value="">All Genres</option>
-            <option value="fiction">Fiction</option>
-            <option value="non-fiction">Non-Fiction</option>
+            
+            {
+              newFilterData?.map((filt)=><option value="fiction">
+                {filt}
+              </option>)
+            }
           </select>
           <select
             className="bg-base-200 rounded-md px-2 py-1"
@@ -78,8 +88,11 @@ export default function Product() {
             onChange={(e) => setSelectedPublicationYear(e.target.value)}
           >
             <option value="">All Years</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
+            {
+              newFilterDate?.map((filt)=><option value={filt?.substring(0, 4)}>
+                {filt?.substring(0, 4)}
+              </option>)
+            }
           </select>
           <button
             className="px-3 py-1 rounded-2xl text-white font-bold text-md bg-blue-300"

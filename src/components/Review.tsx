@@ -8,8 +8,6 @@ interface ReviewCardProps {
 }
 
 export default function Review({ review }:ReviewCardProps) {
-  
-  console.log(review);
   return (
     <div className="border border-gray-300 p-6 rounded-lg shadow-lg">
       <div className="flex items-start justify-between">

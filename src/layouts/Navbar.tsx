@@ -19,6 +19,7 @@ import { setUser } from "../redux/features/user/userSlice";
 export default function Navbar() {
   const [cart, SetCart] = useState<boolean>(false);
   const { books, total } = useAppSelector((state) => state.cart);
+
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
 
@@ -28,6 +29,7 @@ export default function Navbar() {
     })
   }
 
+  console.log(books,'books');
   return (
     <>
       <div className="lg:container md:w-[90%] w-[90%] mx-auto flex justify-between items-center relative">
@@ -57,6 +59,7 @@ export default function Navbar() {
               </div>
             </>
           )}
+          
         </div>
       </div>
       {cart && (

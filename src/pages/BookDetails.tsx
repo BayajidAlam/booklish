@@ -1,30 +1,35 @@
 import { IBook } from "../types/globalTypes";
 import { Link, useParams } from "react-router-dom";
 import Star from "../utils/Star";
-
 import { useAppDispatch } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/cartSlice";
 import MakeReview from "../components/MakeReview";
-import { useGetSingleBookQuery } from "../redux/features/cart/cartApi";
+import {
+  useDeleteBookMutation,
+  useGetSingleBookQuery,
+} from "../redux/features/cart/cartApi";
 import ReviewContainer from "../components/ReviewContainer";
-
 
 export default function BookDetails() {
   const { id } = useParams();
   const rating = 3.4;
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useGetSingleBookQuery(id);
-
+  const [deleteBook, response] = useDeleteBookMutation();
 
   if (isLoading) {
     return;
   }
-  const { image, tittle, publicationDate, author } = data?.data as IBook;
+  const { image, tittle, publicationDate, author, _id } = data?.data as IBook;
 
   const handleAddToCart = (book: IBook) => {
     dispatch(addToCart(book));
   };
 
+  const handleDeleteBook = (id) => {
+    deleteBook(id);
+    console.log(response,'response');
+  };
   return (
     <>
       <div className="flex justify-center items-center lg:container md:w-[90%] w-[90%] mx-auto py-12">
@@ -55,20 +60,23 @@ export default function BookDetails() {
             <p className="text-xl">246 Review</p>
           </div>
           <button
-            onClick={() => handleAddToCart(books)}
+            onClick={() => handleAddToCart(data?.data!)}
             className="btn btn-primary rounded-none my-6 font-bold text-lg w-40"
           >
             Add to Cart
           </button>
 
           <div className="flex items-center justify-start gap-4">
-            <Link to="/update-book">
+            <Link to={`/update-book/${_id}`}>
               <button className="btn btn-danger rounded-none w-40 mt-0 mb-6 font-bold text-lg">
                 Edit Book
               </button>
             </Link>
 
-            <button className="btn w-40 btn-secondary rounded-none mt-0 mb-6 font-bold text-lg">
+            <button
+              onClick={() => handleDeleteBook(_id)}
+              className="btn w-40 btn-secondary rounded-none mt-0 mb-6 font-bold text-lg"
+            >
               Delete book
             </button>
           </div>
@@ -77,7 +85,7 @@ export default function BookDetails() {
       <div className="container mx-auto my-12">
         <h1 className="text-3xl font-semibold mb-6">Reader's Reviews</h1>
         <div>
-        <ReviewContainer/>
+          <ReviewContainer />
         </div>
         <MakeReview />
       </div>

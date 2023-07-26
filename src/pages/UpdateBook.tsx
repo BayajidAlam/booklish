@@ -1,19 +1,29 @@
-import React, { useState } from "react";
-import { IBook } from "../types/globalTypes";
+import { useParams } from "react-router-dom";
+import { useGetSingleBookQuery } from "../redux/features/cart/cartApi";
+import { useForm } from "react-hook-form";
 
 export default function UpdateBook() {
-  const [updatedBook, setUpdatedBook] = useState<IBook>(initialBook);
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUpdatedBook((prevBook) => ({ ...prevBook, [name]: value }));
-  };
+  const {id} = useParams()
+  const {data,isLoading} = useGetSingleBookQuery(id)
+  
+  if(isLoading){
+    return
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Call the onUpdate function with the updated book data
-    onUpdate(updatedBook);
-  };
+
+  // bookName will be replace with tittle 
+  const { bookName, author, genre, publicationDate  } = data?.data 
+
+  const handleUpdateBook = (data) => {
+    console.log(data);
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
@@ -21,7 +31,8 @@ export default function UpdateBook() {
         <h1 className="text-3xl font-semibold text-gray-800 mb-6">
           Update Book
         </h1>
-        <form onSubmit={handleSubmit}>
+        
+        <form onSubmit={handleSubmit(handleUpdateBook)}>
           <div className="mb-4">
             <label
               htmlFor="title"
@@ -31,12 +42,10 @@ export default function UpdateBook() {
             </label>
             <input
               type="text"
-              name="title"
+              defaultValue={bookName}
               id="title"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
-              value={updatedBook.title}
-              onChange={handleChange}
-              required
+              {...register("tittle")}
             />
           </div>
           <div className="mb-4">
@@ -48,11 +57,10 @@ export default function UpdateBook() {
             </label>
             <input
               type="text"
-              name="author"
+              {...register("author")}
               id="author"
+              defaultValue={author}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
-              value={updatedBook.author}
-              onChange={handleChange}
               required
             />
           </div>
@@ -65,11 +73,10 @@ export default function UpdateBook() {
             </label>
             <input
               type="text"
-              name="genre"
+              {...register("genre")}
               id="genre"
+              defaultValue={genre}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
-              value={updatedBook.genre}
-              onChange={handleChange}
               required
             />
           </div>
@@ -82,11 +89,10 @@ export default function UpdateBook() {
             </label>
             <input
               type="date"
-              name="publicationDate"
+              {...register("publicationDate")}
               id="publicationDate"
+              defaultValue={publicationDate}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
-              value={updatedBook.publicationDate}
-              onChange={handleChange}
               required
             />
           </div>

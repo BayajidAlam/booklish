@@ -50,7 +50,7 @@ const routes = createBrowserRouter([
     ),
   },
   {
-    path: "/update-book",
+    path: "/update-book/:id",
     element: <UpdateBook />,
   },
   {

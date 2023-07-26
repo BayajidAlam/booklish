@@ -9,6 +9,9 @@ const cartApi = api.injectEndpoints({
     getBooks: builder.query({
       query: () => "/books",
     }),
+    updatedBooks: builder.query({
+      query: () => "/books/updated-books",
+    }),
     createBook: builder.mutation({
       query: (data) => ({
         url: "/books",
@@ -30,6 +33,20 @@ const cartApi = api.injectEndpoints({
       query: (id) => `/reviews/${id}`,
       providesTags: ["comments"],
     }),
+    updateBook: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/reviews/${id}`,
+        method: "PATCh",
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        body: data,
+      }),
+    }),
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `/books/${id}`,
+        method: "DELETE"
+      }),
+    }),
   }),
 });
 
@@ -39,4 +56,6 @@ export const {
   useCreateBookMutation,
   useGetSingleBookReviewQuery,
   usePostReviewMutation,
+  useUpdatedBooksQuery,
+  useDeleteBookMutation
 } = cartApi;

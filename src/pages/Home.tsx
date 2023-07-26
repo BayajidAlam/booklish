@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IBook } from "../types/globalTypes";
+import { useUpdatedBooksQuery } from "../redux/features/cart/cartApi";
 
 const data = [
   {
@@ -87,29 +88,31 @@ const data = [
 
 export default function Home() {
   const [books, setBooks] = useState<IBook[]>([]);
-  useEffect(() => {
-    fetch("http://localhost:5000/api/v1/books/updated-books")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((data: IBook[]) => {
-        setBooks(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
 
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/api/v1/books/updated-books")
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return res.json();
+  //     })
+  //     .then((data: IBook[]) => {
+  //       setBooks(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);
+
+  const {data} = useUpdatedBooksQuery()
   
   return (
     <div className="lg:container md:w-[90%] w-[90%] mx-auto py-12">
       <p className="text-xl font-mono">New on Booklish</p>
       <hr className="my-6 text-black" />
       <div className="grid grid-cols-5 gap-12">
-        {books?.data?.map((card: IBook, i: number) => (
+        {data?.data?.map((card: IBook, i: number) => (
           <div key={i} className="card w-60 bg-base-100 shadow-xl">
             <figure>
               <img src={card.image} className="h-72 w-60" alt="Shoes" />

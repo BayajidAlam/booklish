@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { createUser } from "../redux/features/user/userSlice";
 import { useAppDispatch } from "../redux/hook";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
-    userName: "",
     email: "",
     password: "",
   });
@@ -18,17 +19,21 @@ export default function Signup() {
   };
 
   const dispatch = useAppDispatch();
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const navigate = useNavigate();
 
-    // Reset form data after submission
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = await dispatch(createUser(formData));
+
+    if (data.meta.requestStatus === "fulfilled") {
+      toast.success("User created successfully");
+      navigate("/all-books");
+    }
+
     setFormData({
-      userName: "",
       email: "",
       password: "",
     });
-
-    dispatch(createUser(formData));
   };
 
   return (
@@ -41,17 +46,14 @@ export default function Signup() {
           Registration
         </h2>
         <div>
-          <label htmlFor="fullName" className="block font-medium mb-1">
+          <label htmlFor="userName" className="block font-medium mb-1">
             Full Name
           </label>
           <input
             type="text"
-            id="fullName"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleInputChange}
+            id="userName"
+            name="userName"
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-            required
           />
         </div>
         <div>
@@ -96,6 +98,7 @@ export default function Signup() {
           </a>
         </p>
       </form>
+      <Toaster />
     </div>
   );
 }

@@ -28,8 +28,8 @@ const initialState: IUser = {
 export const createUser = createAsyncThunk(
   "/users/createUser",
   async ({ email, password }: { email: string; password: string }) => {
-    const data = await createUserWithEmailAndPassword(auth, email, password);
-
+    
+    const data = await createUserWithEmailAndPassword(auth, email, password)
     return data.user.email;
   }
 );

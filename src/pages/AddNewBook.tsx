@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAppSelector } from "../redux/hook";
 import { useCreateBookMutation } from "../redux/features/cart/cartApi";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface Book {
   tittle: string;
@@ -31,6 +32,7 @@ export default function AddNewBook() {
   };
 
   const [createBook, { isLoading }] = useCreateBookMutation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +41,7 @@ export default function AddNewBook() {
     console.log(data, "data");
     if (data?.success === true) {
       toast.success("Book added successfully");
+      navigate('/all-books')
     }
   };
 

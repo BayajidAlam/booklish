@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAppSelector } from "../redux/hook";
 import { useCreateBookMutation } from "../redux/features/cart/cartApi";
+import toast, { Toaster } from "react-hot-toast";
 
 interface Book {
   tittle: string;
@@ -13,14 +14,13 @@ interface Book {
 }
 
 export default function AddNewBook() {
-
-  const { user} = useAppSelector((state)=>state.user)
+  const { user } = useAppSelector((state) => state.user);
   const [newBook, setNewBook] = useState<Book>({
     tittle: "",
     author: "",
     genre: "",
     publicationDate: "",
-    image: '',
+    image: "",
     price: 0,
     authorGmail: user?.email!,
   });
@@ -30,20 +30,20 @@ export default function AddNewBook() {
     setNewBook((prevBook) => ({ ...prevBook, [name]: value }));
   };
 
-  const [createBook,{isLoading}] = useCreateBookMutation()
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const [createBook, { isLoading }] = useCreateBookMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("New Book:", newBook);
-    createBook(newBook)
-    
+
+    const { data } = await createBook(newBook);
+    console.log(data, "data");
+    if (data?.success === true) {
+      toast.success("Book added successfully");
+    }
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
-     
-    >
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
       <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-semibold text-gray-800 mb-6">
           Add New Book
@@ -179,6 +179,7 @@ export default function AddNewBook() {
           </div>
         </form>
       </div>
+      <Toaster />
     </div>
   );
 }

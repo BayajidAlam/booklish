@@ -1,29 +1,38 @@
 import { useParams } from "react-router-dom";
-import { useGetSingleBookQuery } from "../redux/features/cart/cartApi";
+import {
+  useGetSingleBookQuery,
+  useUpdateBookMutation,
+} from "../redux/features/cart/cartApi";
 import { useForm } from "react-hook-form";
+import { IBook } from "../types/globalTypes";
+import toast,{Toaster} from "react-hot-toast";
 
 export default function UpdateBook() {
-  
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
 
-  const {id} = useParams()
-  const {data,isLoading} = useGetSingleBookQuery(id)
-  
-  if(isLoading){
-    return
+  const { id } = useParams();
+  const { data, isLoading } = useGetSingleBookQuery(id);
+  const [updateBook,{isSuccess}] = useUpdateBookMutation();
+
+  if (isLoading) {
+    return;
   }
 
+  const { tittle, author, genre, publicationDate } = data?.data as IBook;
 
-  // bookName will be replace with tittle 
-  const { bookName, author, genre, publicationDate  } = data?.data 
-
-  const handleUpdateBook = (data) => {
+  const handleUpdateBook = async (newData) => {
+    const { data } = await updateBook({ id, newData });
     console.log(data);
-  }
+    if(data?.success){
+      toast.success('Book updated successfully')
+      reset()
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
@@ -31,7 +40,7 @@ export default function UpdateBook() {
         <h1 className="text-3xl font-semibold text-gray-800 mb-6">
           Update Book
         </h1>
-        
+
         <form onSubmit={handleSubmit(handleUpdateBook)}>
           <div className="mb-4">
             <label
@@ -42,8 +51,8 @@ export default function UpdateBook() {
             </label>
             <input
               type="text"
-              defaultValue={bookName}
-              id="title"
+              defaultValue={tittle}
+              id="tittle"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 bg-gray-100"
               {...register("tittle")}
             />
@@ -106,6 +115,7 @@ export default function UpdateBook() {
           </div>
         </form>
       </div>
+      <Toaster/>
     </div>
   );
 }

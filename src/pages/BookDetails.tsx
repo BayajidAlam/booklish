@@ -9,13 +9,14 @@ import {
   useGetSingleBookQuery,
 } from "../redux/features/cart/cartApi";
 import ReviewContainer from "../components/ReviewContainer";
+import toast from 'react-hot-toast';
 
 export default function BookDetails() {
   const { id } = useParams();
   const rating = 3.4;
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useGetSingleBookQuery(id);
-  const [deleteBook, response] = useDeleteBookMutation();
+  const [deleteBook, response, isSuccess] = useDeleteBookMutation();
 
   if (isLoading) {
     return;
@@ -26,10 +27,13 @@ export default function BookDetails() {
     dispatch(addToCart(book));
   };
 
-  const handleDeleteBook = (id) => {
-    deleteBook(id);
-    console.log(response,'response');
+  const handleDeleteBook = async (id:string) => {
+    const { data } = await deleteBook(id);
+    if (data?.success === true) {
+      toast.success("Book deleted successfully!");
+    }
   };
+
   return (
     <>
       <div className="flex justify-center items-center lg:container md:w-[90%] w-[90%] mx-auto py-12">
@@ -89,6 +93,7 @@ export default function BookDetails() {
         </div>
         <MakeReview />
       </div>
+
     </>
   );
 }

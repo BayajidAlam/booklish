@@ -23,13 +23,13 @@ export default function Navbar() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
 
-  const handleLogout = () => {
-    signOut(auth).then(()=>{
-      dispatch(setUser(null))
-    })
-  }
+  const handleLogout = async() => {
+    await signOut(auth).then(() => {
+      dispatch(setUser(null));
+    });
+  };
 
-  console.log(books,'books');
+  console.log(books, "books");
   return (
     <>
       <div className="lg:container md:w-[90%] w-[90%] mx-auto flex justify-between items-center relative">
@@ -59,36 +59,37 @@ export default function Navbar() {
               </div>
             </>
           )}
-          
         </div>
       </div>
       {cart && (
         <div className="bg-red-300 w-96 absolute right-0 top-0 h-[400px]  stickey mt-16 z-50 p-4">
-          {books.map((book) => (
-            <div className="flex items-center gap-3">
-              <p className="uppercase">{book.tittle}</p>
-              <p>Quantity:{book.quantity}</p>
-              <button
-                onClick={() => dispatch(addToCart(book))}
-                className="btn bg-black rounded-full p-2 text-white hover:bg-none hover:text-black"
-              >
-                +
-              </button>
-              <button
-                onClick={() => dispatch(removeOne(book))}
-                className="btn bg-black rounded-full p-2 text-white hover:bg-none hover:text-black"
-              >
-                -
-              </button>
-              <button
-                onClick={() => dispatch(removeFromCart(book))}
-                className="btn bg-black rounded-full p-2 text-white hover:bg-none hover:text-black"
-              >
-                Delete
-              </button>
-              <p>Total: {total}</p>
-            </div>
-          ))}
+          <>
+            {books.map((book) => (
+              <div className="flex items-center gap-3">
+                <p className="uppercase">{book.tittle}</p>
+                <p>Quantity:{book.quantity}</p>
+                <button
+                  onClick={() => dispatch(addToCart(book))}
+                  className="btn bg-black rounded-full p-2 text-white hover:bg-none hover:text-black"
+                >
+                  +
+                </button>
+                <button
+                  onClick={() => dispatch(removeOne(book))}
+                  className="btn bg-black rounded-full p-2 text-white hover:bg-none hover:text-black"
+                >
+                  -
+                </button>
+                <button
+                  onClick={() => dispatch(removeFromCart(book))}
+                  className="btn bg-black rounded-full p-2 text-white hover:bg-none hover:text-black"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </>
+          <p>Total: {total}</p>
         </div>
       )}
     </>
